@@ -1,3 +1,27 @@
+/*
+* MIT License
+* 
+* Copyright (c) 2021 Ivaylo Baylov, ibaylov@gmail.com
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 #include "MBusTiny.h"
 #include <string.h>
 #include <Arduino.h>
@@ -29,6 +53,7 @@ MBUSTiny::DIInputs( int nIndex, int& rbValue )
 MBUSTiny::exCode
 MBUSTiny::DIOCoils( int nIndex, int& rbValue, eDataDir dirData )
 {
+    rbValue = 0;
     return exOK;
 }
 
@@ -212,7 +237,25 @@ MBUSTiny::DoReadDiscreteInputs(uint8_t *pbRV, size_t& rcbOut )
 MBUSTiny::exCode
 MBUSTiny::DoReadMultipleHoldingRegisters(uint8_t *pbRV, size_t& rcbOut )
 {
-    return exIllegalFunction;
+    uint16_t uBase   = PMNtoH16( pbRV );
+    uint16_t uExtent = PMNtoH16( pbRV + 2 );
+
+    size_t nExtentBytes = uExtent * sizeof( uint16_t );
+    memset( pbRV, 0, nExtentBytes + 1);
+    pbRV[ 0 ] = nExtentBytes;
+    uint8_t* pbOut = pbRV + 1;
+
+    exCode exRV = exOK;
+
+    int cElem;
+    for( cElem = 0; cElem < uExtent; cElem ++, pbOut += sizeof( uint16_t))
+    {
+        exRV = DIOHoldingRegs( uBase + cElem, pbOut, eDataDir::dataRead );
+        if( exRV != exOK )
+            return exRV;
+    }
+    rcbOut  = nExtentBytes + 1;
+    return exRV;
 }
 
 MBUSTiny::exCode
