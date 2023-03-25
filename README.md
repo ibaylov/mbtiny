@@ -4,7 +4,7 @@ Tiny Modbus for Arduino / embedded systems
 
 Note: before you consider using this library please take a look at the *Limitations* section.
 
-# Your feedback matters
+## Your feedback matters
 
 I provide this code to you in hope you'll find it useful without seeking any profit or other benefits. So if you find it useful please drop a comment or hit the star button above.
 
