@@ -4,6 +4,11 @@ Tiny Modbus for Arduino / embedded systems
 
 Note: before you consider using this library please take a look at the *Limitations* section.
 
+# Your feedback matters
+
+I provide this code to you in hope you'll find it useful without seeking any profit or other benefits. So if you find it useful please drop a comment or hit the star button above.
+
+
 ## Motivation
 
 A few years ago I had to do a side project for building automation, centered around Modbus-operated ATmega328p actuator controllers.
