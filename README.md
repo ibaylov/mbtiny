@@ -7,7 +7,9 @@ Note: before you consider using this library please take a look at the *Limitati
 ## Your feedback matters
 
 I provide this code to you in hope you'll find it useful without seeking any profit or other benefits. So if you find it useful please drop a comment or hit the star button above.
+
 2024 update:
+
 I really need your feedback to see if I have to further improve and develop the library. So drop me a line if you find it useful and/or need a feature that you miss. 
 
 ## Motivation
