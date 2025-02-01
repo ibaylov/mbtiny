@@ -21,6 +21,8 @@ To reduce the RAM requirements I had to move as much as possible data structures
 
 Since the initial application didn't require runtime registers allocation or register address change, this approach was sound.
 
+It is strange how many applications begin with usage of a hash table or other kind of map to implement registers logic whereas the addresses of variables seldom changes in run time even in controllers that support this.  Using of conditionals instead of map erduces the memory footprint and makes the implementation viable even on smallest RAM devices. Usage of macros hides the implementation details from the programmer and simplifies greatly the readability of the code making it future proof.
+
 ## How to use it
 
 The library is designed with extensibility in mind, it is not tailored to specific message transport. It was used in practice with Maxim MAX 3100 UART, so I provide the MAX code as implementation example. You can find the implementation in the `ibaylov/max3100-485`
